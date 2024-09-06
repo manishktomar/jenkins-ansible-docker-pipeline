@@ -33,7 +33,6 @@ To set up a Jenkins pipeline that performs the following actions:
 
 ## Ansible Playbook to create image and container
 **Step 1** Create Username and password for Ansible
-
     ```
     useradd ansadmin
     passwd ansadmin
@@ -50,7 +49,7 @@ To set up a Jenkins pipeline that performs the following actions:
 **Step 3** vi /etc/ansible/hosts            // Add Host on Ansible 
            **Add host IP**  
 
-- Testing for Host:
+    Testing for Host:
     ```
     ansible all -m ping
     ansible $hostname -m ping
