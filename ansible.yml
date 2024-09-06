@@ -1,0 +1,40 @@
+---
+- hosts: ansible
+  vars:
+      docker_image_name: "tomcat2"
+      docker_image_tag: "latest"
+      dockerhub_username: "manishktomar2"
+      dockerhub_password: "Manish!@9873"   # your-dockerhub-password
+      container_name: "tomcat_container"
+      tomcat_port: 8083
+      war_file_path: "/var/lib/jenkins/workspace/test_ansible/webapp/target/webapp.war'"
+      dockerfilePath: "/var/lib/jenkins/docker/Dockerfile"
+      
+  tasks:
+  - name: Build Docker Image and Push to Docker Hub
+    shell: |
+      docker build -t {{ docker_image_name }} -f {{ dockerfilePath }} .
+      docker tag {{ docker_image_name }} {{ dockerhub_username }}/{{ docker_image_name }}
+      docker push {{ dockerhub_username }}/{{ docker_image_name }}
+
+  - name: Stop Tomcat Container (if running)
+    shell: |
+      if [ "$(docker ps -q -f name={{ container_name }})" ]; then
+        docker stop {{ container_name }};
+      fi
+    ignore_errors: yes  # Ignore errors if the container is not running
+
+  - name: Remove Tomcat Container (if exists)
+    shell: |
+      if [ "$(docker ps -a -q -f name={{ container_name }})" ]; then
+        docker rm {{ container_name }};
+      fi
+    ignore_errors: yes  # Ignore errors if the container does not exist
+
+  - name: Deploy Tomcat Container from Docker Image
+    shell: |
+      docker run -d --name {{ container_name }} -p {{ tomcat_port }}:8080 {{ dockerhub_username }}/{{ docker_image_name }}
+
+  - name: Find Maven Build and Deploy .war to Tomcat Container
+    shell: |
+      docker cp {{ war_file_path }} {{ container_name }}:/usr/local/tomcat/webapps/

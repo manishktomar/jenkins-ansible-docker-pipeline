@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    environment {
+        ANSIBLE_HOST_IP = "192.168.230.128"         // Replace with the actual IP of the host
+        ANSIBLE_USER = "root"                      // Replace with the SSH user for Ansible
+    }
+
+    triggers {
+        // Trigger the build automatically when changes are pushed to GitHub
+        githubPush()
+    }
+	
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git url: 'https://github.com/manishktomar/hello-world.git', branch: 'master'
+            }
+        }
+
+        stage('Build with Maven') {
+            steps {
+                // Assuming Maven is installed and available in the Jenkins environment
+                sh '/opt/apache-maven-3.9.6/bin/mvn clean install'
+            }
+        }
+
+        stage('Run Ansible Playbook') {
+            steps {
+                script {
+  					// Specify the path to the Dockerfile (adjust this to match your project structure)
+                    def ansiblefilePath = '/var/lib/jenkins/docker/ansible.yml'  // Example: 'docker/' is the subdirectory
+
+                    sh """
+                    ansible-playbook -i ${ANSIBLE_HOST_IP}, -u ${ANSIBLE_USER} {ansiblefilePath}
+                    """
+                }
+            }
+        }
+    }
+}
+    
+post {
+    success {
+        echo 'Build and Deployment Successful'
+    }
+    failure {
+        echo 'Build or Deployment Failed'
+    }
+}
