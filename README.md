@@ -26,12 +26,14 @@ To set up a Jenkins pipeline that performs the following actions:
 - **Jenkins** : Jenkins should be installed and accessible. **[Installation](https://github.com/manishktomar/bash-scripts)**
 - **Maven** : Maven should be installed and accessible from Jenkins **[Installation](https://github.com/manishktomar/bash-scripts)**
 - **Docker**: Docker should be installed and accessible from Jenkins **[Installation](https://github.com/manishktomar/bash-scripts)**
-
+- **Ansible**: Ansible should be installed and accessible from Jenkins **[Installation](https://github.com/manishktomar/bash-scripts)**
+- 
 ### Jenkins Plugin Installation and Setup
 - **Credentials**: Credentials for GitHub and Dockerhub should be configured in Jenkins.
 
 ## Ansible Playbook to create image and container
 **Step 1** Create Username and password for Ansible
+
     ```
     useradd ansadmin
     passwd ansadmin
