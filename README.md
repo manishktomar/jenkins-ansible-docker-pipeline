@@ -33,34 +33,34 @@ To set up a Jenkins pipeline that performs the following actions:
 
 ## Ansible Playbook to create image and container
 **Step 1** Create Username and password for Ansible
-    ```
-    useradd ansadmin
-    passwd ansadmin
-    visudo                                    //Set Sudo permission
-        ansadmin ALL=(ALL)  NOPASSWD: ALL
-    ```
+```
+useradd ansadmin
+passwd ansadmin
+visudo                                    //Set Sudo permission
+   ansadmin ALL=(ALL)  NOPASSWD: ALL
+```
 
 **Step 2** Configure ssh-key for ansible host
-    ```
-    ssh-keygen
-    ssh-copy-id **IP**                       //Copy ssh-key on server for deoployment 
-    ```
+```
+ssh-keygen
+ssh-copy-id **IP**                       //Copy ssh-key on server for deoployment 
+```
 
 **Step 3** vi /etc/ansible/hosts            // Add Host on Ansible 
            **Add host IP**  
 
-    Testing for Host:
-    ```
-    ansible all -m ping
-    ansible $hostname -m ping
-    ansible all -m command -a uptime
-    ```
+- Testing for Host:
+```
+ansible all -m ping
+ansible $hostname -m ping
+ansible all -m command -a uptime
+```
 
 **Step 4** Create ansible playbook and deploy.
-    ```
-    ansible-playbook ansible.yml --check        // Ansible.yml is Playbook name.
-    ansible-playbook ansible.yml
-    ```
+```
+ansible-playbook ansible.yml --check        // Ansible.yml is Playbook name.
+ansible-playbook ansible.yml
+```
 
 ## Errors and Solutions: 
 
