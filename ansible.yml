@@ -3,8 +3,8 @@
   vars:
       docker_image_name: "tomcat2"
       docker_image_tag: "latest"
-      dockerhub_username: "manishktomar2"
-      dockerhub_password: "Manish!@9873"   # your-dockerhub-password
+      dockerhub_username: "name"
+      dockerhub_password: "password"   # your-dockerhub-password
       container_name: "tomcat_container"
       tomcat_port: 8083
       war_file_path: "/var/lib/jenkins/workspace/test_ansible/webapp/target/webapp.war'"
